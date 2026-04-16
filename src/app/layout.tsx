@@ -5,7 +5,7 @@ import "./globals.css";
 import Header from "./components/header";   
 import Footer from "./components/footer";         
 import Providers from "./components/providers";
-
+import ScrollToTop from "./components/scrollToTop";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -41,8 +41,8 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
-        <Providers>
+      <body className="min-h-screen flex flex-col bg-zinc-50 dark:bg-[#0f0407] text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
+      <Providers>
         
           <Header />
 
@@ -53,6 +53,7 @@ export default function RootLayout({
 
           {/* Footer */}
           <Footer />
+          <ScrollToTop />
         </Providers>
       </body>
     </html>

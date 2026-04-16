@@ -3,8 +3,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, LogIn } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import { signIn } from "next-auth/react";   
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const router = useRouter();
 
@@ -33,7 +35,7 @@ export default function SignupPage() {
         return;
       }
 
-      toast.success("Account created successfully! ");
+      toast.success("Account created successfully!");
       setTimeout(() => {
         router.push("/login?message=Account created successfully");
       }, 1500);
@@ -44,14 +46,26 @@ export default function SignupPage() {
     }
   };
 
+  // Handle Google Sign Up
+ const handleGoogleSignup = () => {
+    setGoogleLoading(true);
+    signIn("google", { 
+      callbackUrl: "/",     
+      redirect: true 
+    }).catch((error) => {
+      console.error("Google sign in error:", error);
+      toast.error("Failed to sign up with Google. Please try again.");
+      setGoogleLoading(false);
+    });
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-800 flex items-center justify-center px-6 py-12">
       <Toaster position="top-center" />
 
       <div className="w-full max-w-md">
-        {/* Back Button */}
-
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-10 border border-slate-100 dark:border-slate-800">
+          
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 bg-gradient-to-br from-sky-500 to-amber-500 rounded-2xl flex items-center justify-center">
               <span className="text-white text-4xl font-bold">P</span>
@@ -65,6 +79,38 @@ export default function SignupPage() {
             Start building your career path today
           </p>
 
+          {/* Google Signup Button */}
+          <button
+            onClick={handleGoogleSignup}
+            disabled={googleLoading}
+            className="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-600 text-slate-700 dark:text-slate-200 font-medium py-4 rounded-2xl mb-8 transition-all active:scale-[0.985] disabled:opacity-70"
+          >
+            {googleLoading ? (
+              "Connecting to Google..."
+            ) : (
+              <>
+                <img 
+                  src="https://authjs.dev/img/providers/google.svg" 
+                  alt="Google" 
+                  className="w-5 h-5"
+                />
+                Sign up with Google
+              </>
+            )}
+          </button>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white dark:bg-slate-900 px-4 text-slate-500 dark:text-slate-400">
+                OR
+              </span>
+            </div>
+          </div>
+
+          {/* Email Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
