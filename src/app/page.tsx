@@ -7,6 +7,7 @@ import { ArrowRight, PlayCircle, Flame } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion, Variants } from 'framer-motion';
 
+
 export default function PathWiseLanding() {
   const router = useRouter();
   

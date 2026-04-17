@@ -33,6 +33,7 @@ export default function Header({ onGetStarted }: HeaderProps) {
   };
 
   const handleLogout = async () => {
+     setIsMobileMenuOpen(false);
     await signOut({ 
       callbackUrl: '/', 
       redirect: true 
@@ -40,10 +41,12 @@ export default function Header({ onGetStarted }: HeaderProps) {
   };
 
   const handleLoginClick = () => {
+     setIsMobileMenuOpen(false);
     router.push('/login');
   };
 
   const handleGetStartedClick = () => {
+     setIsMobileMenuOpen(false);
     if (onGetStarted) {
       onGetStarted();
     } else if (!isLoggedIn) {

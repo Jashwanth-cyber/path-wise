@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma), // ✅ THIS IS THE KEY
+  adapter: PrismaAdapter(prisma),
 
   providers: [
     Google({
@@ -54,4 +54,49 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
 
   secret: process.env.NEXTAUTH_SECRET,
+
+  // 🔥 Prevention & Proper ID Handling
+  callbacks: {
+    // Handle sign-in safely (prevents duplicate account issues)
+    async signIn({ account, profile, user }) {
+      if (account?.provider === "google") {
+        try {
+          // Check if there's already an account linked to this email
+          const existingAccount = await prisma.account.findFirst({
+            where: {
+              provider: "google",
+              providerAccountId: account.providerAccountId,
+            },
+          });
+
+          if (existingAccount) {
+            // If user was deleted but account remains, clean it up automatically
+            if (!existingAccount.userId) {
+              await prisma.account.delete({
+                where: { id: existingAccount.id },
+              });
+            }
+          }
+        } catch (error) {
+          console.error("SignIn cleanup error:", error);
+        }
+      }
+      return true; // Allow sign in
+    },
+
+    // Properly pass user.id to session
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user && token.id) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
 });

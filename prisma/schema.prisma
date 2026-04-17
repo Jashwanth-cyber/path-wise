@@ -46,6 +46,10 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?   
+
+  // ✅ Fixed: Added opposite relation field
+  profile       Profile?
+
   accounts      Account[]
   sessions      Session[]
 
@@ -60,4 +64,42 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+// ====================== PROFILE MODEL ======================
+
+model Profile {
+  id                     String   @id @default(cuid()) @map("_id")
+
+  // Basic Info
+  name                   String
+  age                    Int
+  location               String
+
+  // Education
+  educationLevel         String
+  stream                 String
+  secondaryStreams       String[]
+
+  // Academic & Skills
+  academicPerformance    String
+  skills                 String[]
+
+  // Goals & Preferences
+  careerGoal             String
+  timeCommitment         String
+  resources              String[]
+
+  languagePreference     String
+  budgetComfort          String
+
+  // Metadata
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  // Relation to User
+  userId                 String   @unique
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
 }
