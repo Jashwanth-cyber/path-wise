@@ -55,3 +55,27 @@ export async function POST(request: NextRequest) {
     await prisma.$disconnect();
   }
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    const userId = request.nextUrl.searchParams.get('userId');
+
+    if (!userId) {
+      return NextResponse.json({ exists: false }, { status: 400 });
+    }
+
+    const profile = await prisma.profile.findUnique({
+      where: { userId },
+    });
+
+    return NextResponse.json({ 
+      exists: !!profile,
+      profile: profile || null 
+    });
+  } catch (error: any) {
+    console.error('Error checking profile:', error);
+    return NextResponse.json({ exists: false }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
+  }
+}

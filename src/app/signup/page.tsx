@@ -36,7 +36,7 @@ export default function SignupPage() {
 
       toast.success("Account created successfully!");
       setTimeout(() => {
-        router.push("/login?message=Account created successfully");
+        router.push("/login");
       }, 1500);
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
@@ -49,7 +49,7 @@ export default function SignupPage() {
   const handleGoogleSignup = () => {
     setGoogleLoading(true);
     signIn("google", { 
-      callbackUrl: "/",     
+      callbackUrl: "/onboarding",     
       redirect: true 
     }).catch((error) => {
       console.error("Google sign in error:", error);

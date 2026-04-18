@@ -15,7 +15,7 @@ export default function LoginPage() {
     const [error, setError] = useState("");
 
     const router = useRouter();
-    const callbackUrl = "/";
+    const callbackUrl = "/onboarding";
 
     // 🔐 Email/Password Login
     const handleSubmit = async (e: React.FormEvent) => {
@@ -42,12 +42,12 @@ export default function LoginPage() {
         setLoading(false);
     };
 
-    // 🔗 Google Login
+   
     const handleGoogleLogin = () => {
         setGoogleLoading(true);
 
         signIn("google", {
-            callbackUrl: "/",
+            callbackUrl: "/onboarding",
             redirect: true,
         }).catch(() => {
             toast.error("Failed to sign in with Google");
