@@ -12,9 +12,9 @@ export default function PathWiseLanding() {
   const router = useRouter();
   
   const features = [
-    { icon: "🧬", title: "AI Career Assessment", desc: "7-minute quiz that understands your unique strengths, JEE rank & goals." },
+    { icon: "🧬", title: "AI Career Assessment", desc: "7-minute quiz that understands your stream, strengths, and career goals" },
     { icon: "🛤️", title: "Personalized Roadmaps", desc: "24-month hyper-specific plan with weekly milestones." },
-    { icon: "📊", title: "Skill Gap Analysis", desc: "Real-time gap report vs top companies like Google, Atlassian & Zomato." },
+    { icon: "📊", title: "Skill Gap Analysis", desc: "Real-time skill gap report based on industry requirements and current job market demand." },
     { icon: "📅", title: "Daily Task Dashboard", desc: "AI-generated micro-tasks with deadlines and streak protection." },
     { icon: "📈", title: "Progress Tracking & Streaks", desc: "Visual progress, weekly reviews, and AI motivation nudges." },
     { icon: "📄", title: "Exportable Career Plan (PDF)", desc: "Beautiful one-page plan you can share with parents or mentors." },
@@ -302,7 +302,7 @@ export default function PathWiseLanding() {
             Your Career Won’t Build Itself.<br />Start Today.
           </h2>
           <p className="mt-6 text-2xl max-w-md mx-auto opacity-90 font-medium text-white">
-            Join thousands of students who finally know exactly what to do next.
+            Be among the first students to get clarity on their career path with <span className="text-yellow-600 font-bold">Pathwise</span>
           </p>
 
           <button
