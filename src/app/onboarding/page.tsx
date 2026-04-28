@@ -235,7 +235,7 @@ export default function PathwiseOnboarding() {
         setSubmitStatus('success');
         localStorage.removeItem('onboarding');
         toast.success('Profile saved successfully 🎉');
-        setTimeout(() => router.push('/dashboard'), 1800);
+        setTimeout(() => router.push('/role-selection'), 1800);
       } else {
         throw new Error(result.error || 'Failed to save profile');
       }
